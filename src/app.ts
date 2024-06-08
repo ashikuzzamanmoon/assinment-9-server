@@ -5,6 +5,7 @@ import globalErrorHandler from "./app/middleWare/globalErrorHandler";
 import { notFound } from "./app/middleWare/notFound";
 
 const app: Application = express();
+// https://travel-buddy-client-ten.vercel.app
 app.use(
   cors({
     origin: "https://travel-buddy-client-ten.vercel.app",

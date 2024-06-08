@@ -1,12 +1,12 @@
-# Travel Buddy Matching
+# Travel Buddy
 
 ## Live URL
 
-[https://travel-buddy-matching-a-8.vercel.app/](https://travel-buddy-matching-a-8.vercel.app/)
+[https://travel-buddy-client-ten.vercel.app](https://travel-buddy-client-ten.vercel.app)
 
 ## Video Description
 
-[https://drive.google.com/file/d/1B8gAffa0RfLyHmaA-blgNRIJodfApLdA/view?usp=sharing](https://drive.google.com/file/d/1B8gAffa0RfLyHmaA-blgNRIJodfApLdA/view?usp=sharing)
+[https://drive.google.com/file/d/1mRKhAiY4dXn1MA_Ret2opxm8JzmpJYB7/view?usp=sharing](https://drive.google.com/file/d/1mRKhAiY4dXn1MA_Ret2opxm8JzmpJYB7/view?usp=sharing)
 
 ## Overview
 

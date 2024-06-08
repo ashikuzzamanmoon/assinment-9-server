@@ -18,7 +18,15 @@ const createTrip = catchAsync(
       return;
     }
 
-    const { destination, startDate, endDate, budget, photo, type } = req.body;
+    const {
+      destination,
+      startDate,
+      endDate,
+      budget,
+      photo,
+      type,
+      description,
+    } = req.body;
 
     const trip = await tripServices.createTrip(
       userId,
@@ -27,7 +35,8 @@ const createTrip = catchAsync(
       endDate,
       budget,
       photo,
-      type
+      type,
+      description
     );
 
     sendResponse(res, {
@@ -127,8 +136,13 @@ const getFilteredTrips = catchAsync(
 const sendTravelBuddyRequest = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
     const { tripId } = req.params;
+    const { userId: senderId } = req.user;
     const { userId } = req.body;
-    const request = await tripServices.sendTravelBuddyRequest(tripId, userId);
+    const request = await tripServices.sendTravelBuddyRequest(
+      tripId,
+      senderId,
+      userId
+    );
 
     sendResponse(res, {
       success: true,
@@ -212,6 +226,19 @@ const getAllRequestByUser = catchAsync(
     });
   }
 );
+const getAllSendRequestHistoryByUser = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const { userId } = req.user;
+
+    const result = await tripServices.getAllSendRequestHistoryByUser(userId);
+    sendResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: "Travel buddy request fetch successfully",
+      data: result,
+    });
+  }
+);
 
 export const tripController = {
   createTrip,
@@ -225,4 +252,5 @@ export const tripController = {
   getTripById,
   getAllRequestByUser,
   respondToBuddyRequest,
+  getAllSendRequestHistoryByUser,
 };

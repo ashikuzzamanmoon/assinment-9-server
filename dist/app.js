@@ -9,7 +9,11 @@ const Routes_1 = __importDefault(require("./app/Routes"));
 const globalErrorHandler_1 = __importDefault(require("./app/middleWare/globalErrorHandler"));
 const notFound_1 = require("./app/middleWare/notFound");
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)({ origin: "http://localhost:3000", credentials: true }));
+// https://travel-buddy-client-ten.vercel.app
+app.use((0, cors_1.default)({
+    origin: "https://travel-buddy-client-ten.vercel.app",
+    credentials: true,
+}));
 //parser
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));

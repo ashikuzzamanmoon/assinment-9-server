@@ -53,6 +53,11 @@ router.get(
   auth(UserRole.ADMIN, UserRole.USER),
   tripController.getAllRequestByUser
 );
+router.get(
+  "/request-history",
+  auth(UserRole.ADMIN, UserRole.USER),
+  tripController.getAllSendRequestHistoryByUser
+);
 
 router.put(
   "/travel-buddies/:buddyId/respond",

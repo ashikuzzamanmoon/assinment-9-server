@@ -74,7 +74,7 @@ const getTripById = (tripId) => __awaiter(void 0, void 0, void 0, function* () {
     });
     return result;
 });
-const createTrip = (userId, destination, startDate, endDate, budget, photo, type) => __awaiter(void 0, void 0, void 0, function* () {
+const createTrip = (userId, destination, startDate, endDate, budget, photo, type, description) => __awaiter(void 0, void 0, void 0, function* () {
     const trip = yield prisma.trip.create({
         data: {
             userId,
@@ -84,80 +84,15 @@ const createTrip = (userId, destination, startDate, endDate, budget, photo, type
             budget,
             photo,
             type,
+            description,
         },
     });
     return trip;
 });
 const getFilteredTrips = (params, options) => __awaiter(void 0, void 0, void 0, function* () {
     // Calculate pagination parameters
-    const { page = 1, limit = 10 } = options;
+    const { page = 1, limit = 50 } = options;
     const skip = (page - 1) * limit;
-    // // Destructure filter parameters
-    // const { searchTerm, ...filterData } = params;
-    // // Build where conditions based on filter parameters
-    // const andCondition: Prisma.TripWhereInput[] = [];
-    // if (searchTerm) {
-    //   andCondition.push({
-    //     OR: tripSearchAbleFields.map((field) => ({
-    //       [field]: {
-    //         contains: searchTerm,
-    //         mode: "insensitive",
-    //       },
-    //     })),
-    //   });
-    // }
-    // if (Object.keys(filterData).length > 0) {
-    //   const { destination, startDate, endDate, budget } = filterData;
-    //   // Build filter conditions
-    //   if (destination) {
-    //     andCondition.push({ destination: { contains: destination } });
-    //   }
-    //   if (startDate) {
-    //     andCondition.push({ startDate: { gte: new Date(startDate) } });
-    //   }
-    //   if (endDate) {
-    //     andCondition.push({ endDate: { lte: new Date(endDate) } });
-    //   }
-    // if (budget && (budget.minBudget || budget.maxBudget)) {
-    //   andCondition.push({
-    //     budget: {
-    //       gte: budget.minBudget,
-    //       lte: budget.maxBudget,
-    //     },
-    //   });
-    // }
-    // }
-    // andCondition.push({ isDeleted: false });
-    // // Construct final where condition
-    // const whereConditions: Prisma.TripWhereInput = { AND: andCondition };
-    // // Retrieve paginated and filtered trips
-    // const result = await prisma.trip.findMany({
-    //   where: whereConditions,
-    //   include: {
-    //     user: {
-    //       include: {
-    //         userProfile: true,
-    //       },
-    //     },
-    //   },
-    //   skip,
-    //   take: limit,
-    // orderBy: {
-    //   [options.sortBy || "createdAt"]: options.sortOrder || "desc",
-    // },
-    // });
-    // // Get total count of filtered trips
-    // const total = await prisma.trip.count({
-    //   where: whereConditions,
-    // });
-    // return {
-    //   meta: {
-    //     page,
-    //     limit,
-    //     total,
-    //   },
-    //   data: result,
-    // };
     const andConditions = [];
     const searchAbleFields = ["destination"];
     // console.log(params.searchTerm);
@@ -234,10 +169,11 @@ const getFilteredTrips = (params, options) => __awaiter(void 0, void 0, void 0, 
         data: result,
     };
 });
-const sendTravelBuddyRequest = (tripId, userId) => __awaiter(void 0, void 0, void 0, function* () {
+const sendTravelBuddyRequest = (tripId, senderId, userId) => __awaiter(void 0, void 0, void 0, function* () {
     const request = yield prisma.travelBuddyRequest.create({
         data: {
             tripId,
+            senderId,
             userId,
             status: "PENDING",
         },
@@ -297,6 +233,32 @@ const getAllRequestByUser = (id) => __awaiter(void 0, void 0, void 0, function* 
                 },
             },
             trip: true,
+            sender: {
+                include: {
+                    userProfile: true,
+                },
+            },
+        },
+    });
+    return result;
+});
+const getAllSendRequestHistoryByUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma.travelBuddyRequest.findMany({
+        where: {
+            senderId: id,
+        },
+        include: {
+            user: {
+                include: {
+                    userProfile: true,
+                },
+            },
+            trip: true,
+            sender: {
+                include: {
+                    userProfile: true,
+                },
+            },
         },
     });
     return result;
@@ -313,4 +275,5 @@ exports.tripServices = {
     getTripById,
     getAllRequestByUser,
     respondToBuddyRequest,
+    getAllSendRequestHistoryByUser,
 };

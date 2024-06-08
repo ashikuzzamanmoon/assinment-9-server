@@ -29,8 +29,8 @@ const createTrip = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         });
         return;
     }
-    const { destination, startDate, endDate, budget, photo, type } = req.body;
-    const trip = yield trip_service_1.tripServices.createTrip(userId, destination, startDate, endDate, budget, photo, type);
+    const { destination, startDate, endDate, budget, photo, type, description, } = req.body;
+    const trip = yield trip_service_1.tripServices.createTrip(userId, destination, startDate, endDate, budget, photo, type, description);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 201,
@@ -103,8 +103,9 @@ const getFilteredTrips = (0, catchAsync_1.default)((req, res) => __awaiter(void 
 }));
 const sendTravelBuddyRequest = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { tripId } = req.params;
+    const { userId: senderId } = req.user;
     const { userId } = req.body;
-    const request = yield trip_service_1.tripServices.sendTravelBuddyRequest(tripId, userId);
+    const request = yield trip_service_1.tripServices.sendTravelBuddyRequest(tripId, senderId, userId);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 201,
@@ -160,6 +161,16 @@ const getAllRequestByUser = (0, catchAsync_1.default)((req, res) => __awaiter(vo
         data: result,
     });
 }));
+const getAllSendRequestHistoryByUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.user;
+    const result = yield trip_service_1.tripServices.getAllSendRequestHistoryByUser(userId);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: 200,
+        message: "Travel buddy request fetch successfully",
+        data: result,
+    });
+}));
 exports.tripController = {
     createTrip,
     getFilteredTrips,
@@ -172,4 +183,5 @@ exports.tripController = {
     getTripById,
     getAllRequestByUser,
     respondToBuddyRequest,
+    getAllSendRequestHistoryByUser,
 };
