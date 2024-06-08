@@ -49,7 +49,7 @@ Travel Buddy Matching App is a web application designed to help users plan and o
 
 - **Send Travel Buddy Request**: `POST /api/trip/:tripId/request`
 - **Get Potential Travel Buddies For a Specific Trip**: `GET /api/travel-buddies/:tripId`
-- **Respond to Travel Buddy Request**: `PUT /api/travel-buddies/:buddyId/respond`
+- **Respond to Travel Buddy Request**: `PUT /api/travel-buddies/:buddyId/respond
 
 ## Getting Started
 
